@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import Header from './components/Header/Header';
 import Input from './components/Input/Input';
+import Board from './components/Board/Board';
 
 const AppBlock = styled.div`
   width: 100%;
@@ -15,6 +16,7 @@ const App = () => {
     <AppBlock>
       <Header />
       <Input />
+      <Board />
     </AppBlock>
   )
 }
