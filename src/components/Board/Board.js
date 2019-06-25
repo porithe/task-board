@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { colors } from '../../template/colors.js';
 
+import { connect } from 'react-redux';
+
 const BoardBlock = styled.div`
   padding: 30px 0 30px 0;
   display: flex;
@@ -93,6 +95,7 @@ const Task = styled.div`
   justify-content: center;
   align-items: center;
   padding: 10px;
+  margin: 20px 0 20px 0;
   ::after {
     content: '';
     position: absolute;
@@ -129,7 +132,7 @@ const theme = {
 }
 
 
-const Board = () => {
+const Board = (props) => {
 
 
   return (
@@ -142,9 +145,11 @@ const Board = () => {
               </ItemTitle>
             </ItemHeader>
             <TasksBlock>
-              <Task theme={theme.blue}>
-                <TaskContent>Start a new project</TaskContent>
-              </Task>
+              {props.todos.items.map( item => (
+                <Task key={item.id} theme={theme.blue}>
+                  <TaskContent>{item.task}</TaskContent>
+                </Task>
+              ))}
             </TasksBlock>
           </ItemBlock>
 
@@ -175,4 +180,12 @@ const Board = () => {
   )
 }
 
-export default Board;
+function mapStateToProps(state) {
+  return {
+    todos: state.todos,
+    inprog: state.inprog,
+    done: state.done,
+  }
+}
+
+export default connect(mapStateToProps)(Board);

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { colors } from '../../template/colors.js';
+import { connect } from 'react-redux';
 
 const InputBlock = styled.div`
   width: 100%;
@@ -22,6 +23,7 @@ const Inp = styled.input`
   font-size: 1.1rem;
   transition: box-shadow .3s;
   -webkit-appearance: none;
+  padding: 0 20px 0 20px;
   ::placeholder {
     color: ${colors.purple};
     opacity: 0.7;
@@ -115,14 +117,41 @@ const Button = styled.button`
   }
 `;
 
-const Input = () => {
+const Input = (props) => {
+
+  const [taskValue, setTask] = React.useState('');
+
+  const [taskId, setTaskId] = React.useState(0);
+
+  const sendTask = (e) => {
+    setTaskId(taskId + 1);
+
+    const itemObject = {
+      id: taskId,
+      task: taskValue,
+    }
+
+    props.dispatch({
+      type: 'ADD_TODO',
+      item: itemObject,
+    });
+    
+    setTask(e.target.value = '');
+  }
+  
 
   return (
     <InputBlock>
-      <Inp placeholder="Start a new project..." />
-      <Button>ADD TASK</Button>
+      <Inp value={taskValue} onChange={e => setTask(e.target.value)} placeholder="Start a new project..." />
+      <Button onClick={sendTask}>ADD TASK</Button>
     </InputBlock>
   )
 }
 
-export default Input;
+function mapStateToProps(state) {
+  return {
+    todos: state.todos,
+  }
+}
+
+export default connect(mapStateToProps)(Input);
