@@ -18,6 +18,7 @@ const ItemBlock = styled.div`
   width: 300px;
   min-height: 350px;
   border: 2px solid ${props => props.theme};
+  margin: 20px;
   @media (min-width: 481px) and (max-width: 767px) {
     width: 400px;
   }
@@ -70,9 +71,6 @@ const ItemTitle = styled.div`
   @media (min-width: 768px) and (max-width: 1024px) {
     font-size: 2rem;
   }
-  @media (min-width: 768px) and (max-width: 1024px) {
-    font-size: 2.3rem;
-  }
   @media (min-width: 1025px) and (max-width: 1280px) {
     font-size: 2.5rem;
   }
@@ -80,6 +78,49 @@ const ItemTitle = styled.div`
     font-size: 2.8rem;
   }
 `;
+const TasksBlock = styled.div`
+  width: 100%;
+  height: auto;
+  padding: 25px;
+`;
+const Task = styled.div`
+  width: 100%;
+  min-height: 50px;
+  background-color: ${colors.gray};
+  box-shadow: 0 0 5px 0 rgba(117,117,117 ,0.6);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  ::after {
+    content: '';
+    position: absolute;
+    left: -3px;
+    top: 0;
+    height: 100%;
+    width: 5px;
+    background-color: ${props => props.theme};
+  }
+  @media (min-width: 1281px) {
+    min-height: 60px;
+  }
+`;
+const TaskContent = styled.h1`
+  font-weight: 300;
+  font-size: 1.5rem;
+  color: ${colors.black};
+  @media (min-width: 481px) and (max-width: 767px) {
+    font-size: 1.65rem;
+  }
+  @media (min-width: 768px) and (max-width: 1024px) {
+    font-size: 1.17rem;
+  }
+  @media (min-width: 1491px) {
+    font-size: 1.8rem;
+  }
+`;
+
 const theme = {
   blue: colors.blue,
   yellow: colors.yellow,
@@ -89,35 +130,44 @@ const theme = {
 
 const Board = () => {
 
-  const items = [
-    {
-      title: 'TO DO',
-      color: theme.blue,
-    },
-    {
-      title: 'IN PROGRESS',
-      color: theme.yellow,
-    },
-    {
-      title: 'DONE',
-      color: theme.green,
-    }
-  ];
 
   return (
     <BoardBlock>
 
-      {
-        items.map( item => (
-          <ItemBlock theme={item.color}>
-            <ItemHeader theme={item.color}>
+          <ItemBlock theme={theme.blue}>
+            <ItemHeader theme={theme.blue}>
               <ItemTitle>
-                {item.title}
+                TO DO
               </ItemTitle>
             </ItemHeader>
+            <TasksBlock>
+              <Task theme={theme.blue}>
+                <TaskContent>Start a new project</TaskContent>
+              </Task>
+            </TasksBlock>
           </ItemBlock>
-        ))
-      }
+
+          <ItemBlock theme={theme.yellow}>
+            <ItemHeader theme={theme.yellow}>
+              <ItemTitle>
+                IN PROGRESS
+              </ItemTitle>
+            </ItemHeader>
+            <TasksBlock>
+              <Task theme={theme.yellow} />
+            </TasksBlock>
+          </ItemBlock>
+
+          <ItemBlock theme={theme.green}>
+            <ItemHeader theme={theme.green}>
+              <ItemTitle>
+                DONE
+              </ItemTitle>
+            </ItemHeader>
+            <TasksBlock>
+              <Task theme={theme.green} />
+            </TasksBlock>
+          </ItemBlock>
 
 
     </BoardBlock>

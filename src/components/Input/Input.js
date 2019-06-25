@@ -21,6 +21,7 @@ const Inp = styled.input`
   font-weight: 300;
   font-size: 1.1rem;
   transition: box-shadow .3s;
+  -webkit-appearance: none;
   ::placeholder {
     color: ${colors.purple};
     opacity: 0.7;
@@ -70,6 +71,7 @@ const Button = styled.button`
   z-index: 1;
   :hover {
     color: ${colors.white};
+    box-shadow: 0 0 5px 0 ${colors.purple};
   }
   ::after {
     content: '';
