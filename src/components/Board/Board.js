@@ -4,6 +4,7 @@ import { colors } from '../../template/colors.js';
 
 import { connect } from 'react-redux';
 
+
 const BoardBlock = styled.div`
   padding: 30px 0 30px 0;
   display: flex;
@@ -114,6 +115,7 @@ const TaskContent = styled.h1`
   font-weight: 300;
   font-size: 1.5rem;
   color: ${colors.black};
+  padding-right: 35px;
   @media (min-width: 481px) and (max-width: 767px) {
     font-size: 1.65rem;
   }
@@ -122,8 +124,44 @@ const TaskContent = styled.h1`
   }
   @media (min-width: 1491px) {
     font-size: 1.8rem;
+    padding-right: 40px;
   }
 `;
+const AcceptButton = styled.button`
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+  border: 2px solid ${props => props.theme};
+  cursor: pointer;
+  @media (min-width: 1491px) {
+    width: 40px;
+    height: 40px;
+  }
+  ::after {
+    content: '\f00c';
+    font-family: "Font Awesome 5 Free";
+    position: absolute;
+    font-weight: 700;
+    font-size: 1.2rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: ${props => props.theme};
+    @media (min-width: 1491px) {
+      font-size: 1.5rem;
+    }
+  }
+`;
+const DoneTaskContent = styled(TaskContent)`
+  padding-right: 0;
+  @media (min-width: 1491px) {
+    padding-right: 0;
+  }
+`
 
 const theme = {
   blue: colors.blue,
@@ -133,6 +171,29 @@ const theme = {
 
 
 const Board = (props) => {
+
+  const addToProg = (item) => {
+    props.dispatch({
+      type: 'ADD_INPROG',
+      item: item,
+    });
+    props.dispatch({
+      type: 'DEL_TODO',
+      item: item,
+      id: item.id,
+    })
+  }
+  const addToDone = (item) => {
+    props.dispatch({
+      type: 'ADD_DONE',
+      item: item,
+    });
+    props.dispatch({
+      type: 'DEL_INPROG',
+      item: item,
+      id: item.id,
+    })
+  }
 
 
   return (
@@ -148,6 +209,7 @@ const Board = (props) => {
               {props.todos.items.map( item => (
                 <Task key={item.id} theme={theme.blue}>
                   <TaskContent>{item.task}</TaskContent>
+                  <AcceptButton theme={theme.blue} onClick={() => addToProg(item)}></AcceptButton>
                 </Task>
               ))}
             </TasksBlock>
@@ -160,7 +222,12 @@ const Board = (props) => {
               </ItemTitle>
             </ItemHeader>
             <TasksBlock>
-              <Task theme={theme.yellow} />
+            {props.inprog.items.map( item => (
+                <Task key={item.id} theme={theme.yellow}>
+                  <TaskContent>{item.task}</TaskContent>
+                  <AcceptButton theme={theme.yellow} onClick={() => addToDone(item)}></AcceptButton>
+                </Task>
+              ))}
             </TasksBlock>
           </ItemBlock>
 
@@ -171,7 +238,11 @@ const Board = (props) => {
               </ItemTitle>
             </ItemHeader>
             <TasksBlock>
-              <Task theme={theme.green} />
+              {props.done.items.map( item => (
+                <Task key={item.id} theme={theme.green}>
+                  <DoneTaskContent>{item.task}</DoneTaskContent>
+                </Task>
+              ))}
             </TasksBlock>
           </ItemBlock>
 

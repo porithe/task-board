@@ -8,6 +8,10 @@ export default function todos(state = todoState, action) {
       return {
         items: [...state.items, action.item] 
       };
+    case 'DEL_TODO':
+      return {
+        items: [...state.items.filter(item => item.id !== action.id)],
+      };
     default:
       return state;  
   }
