@@ -101,6 +101,7 @@ const Task = styled.div`
     height: 100%;
     width: 5px;
     background-color: ${props => props.theme};
+    box-shadow: -1px 0 5px 0 rgba(117,117,117 ,0.6);
   }
   @media (min-width: 1281px) {
     min-height: 60px;
