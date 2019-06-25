@@ -1,9 +1,10 @@
-import React from 'react';
-import styled from 'styled-components';
-import { colors } from '../../template/colors.js';
+import React from "react";
+import styled from "styled-components";
+import { colors } from "../../template/colors.js";
 
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 
+import EditForm from '../EditForm/EditForm';
 
 const BoardBlock = styled.div`
   padding: 30px 0 30px 0;
@@ -77,7 +78,7 @@ const ItemTitle = styled.div`
   @media (min-width: 1025px) and (max-width: 1280px) {
     font-size: 2.5rem;
   }
-  @media (min-width: 1281px){
+  @media (min-width: 1281px) {
     font-size: 2.8rem;
   }
 `;
@@ -90,7 +91,7 @@ const Task = styled.div`
   width: 100%;
   min-height: 50px;
   background-color: ${colors.gray};
-  box-shadow: 0 0 5px 0 rgba(117,117,117 ,0.6);
+  box-shadow: 0 0 5px 0 rgba(117, 117, 117, 0.6);
   position: relative;
   display: flex;
   justify-content: center;
@@ -98,14 +99,14 @@ const Task = styled.div`
   padding: 10px;
   margin: 20px 0 20px 0;
   ::after {
-    content: '';
+    content: "";
     position: absolute;
     left: -3px;
     top: 0;
     height: 100%;
     width: 5px;
     background-color: ${props => props.theme};
-    box-shadow: -1px 0 5px 0 rgba(117,117,117 ,0.6);
+    box-shadow: -1px 0 5px 0 rgba(117, 117, 117, 0.6);
   }
   @media (min-width: 1281px) {
     min-height: 60px;
@@ -116,6 +117,8 @@ const TaskContent = styled.h1`
   font-size: 1.5rem;
   color: ${colors.black};
   padding-right: 35px;
+  padding-left: 35px;
+  word-break: break-all;
   @media (min-width: 481px) and (max-width: 767px) {
     font-size: 1.65rem;
   }
@@ -124,7 +127,8 @@ const TaskContent = styled.h1`
   }
   @media (min-width: 1491px) {
     font-size: 1.8rem;
-    padding-right: 40px;
+    padding-right: 45px;
+    padding-left: 45px;
   }
 `;
 const AcceptButton = styled.button`
@@ -142,121 +146,188 @@ const AcceptButton = styled.button`
     height: 40px;
   }
   ::after {
-    content: '\f00c';
+    content: "\f00c";
     font-family: "Font Awesome 5 Free";
     position: absolute;
     font-weight: 700;
     font-size: 1.2rem;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
     color: ${props => props.theme};
     @media (min-width: 1491px) {
       font-size: 1.5rem;
     }
   }
 `;
-const DoneTaskContent = styled(TaskContent)`
+const EditButton = styled.button`
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+  border: 2px solid ${props => props.theme};
+  cursor: pointer;
+  @media (min-width: 1491px) {
+    width: 40px;
+    height: 40px;
+  }
+  ::after {
+    content: "\f11c";
+    font-family: "Font Awesome 5 Free";
+    position: absolute;
+    font-weight: 700;
+    font-size: 1.2rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: ${props => props.theme};
+    @media (min-width: 1491px) {
+      font-size: 1.5rem;
+    }
+  }
+`;
+const InprogTaskContent = styled(TaskContent)`
   padding-right: 0;
+  padding-left: 0;
   @media (min-width: 1491px) {
     padding-right: 0;
+    padding-left: 0;
   }
-`
+`;
+const DoneTask = styled(Task)`
+  @media (min-width: 768px) {
+    transition: opacity 0.2s;
+    cursor: pointer;
+    :hover {
+      opacity: 0.6;
+    }
+  }
+`;
+const DoneTaskContent = styled(TaskContent)`
+  padding-right: 0;
+  padding-left: 0;
+  @media (min-width: 1491px) {
+    padding-right: 0;
+    padding-left: 0;
+  }
+`;
 
 const theme = {
   blue: colors.blue,
   yellow: colors.yellow,
-  green: colors.green,
-}
+  green: colors.green
+};
+
+const Board = props => {
 
 
-const Board = (props) => {
 
-  const addToProg = (item) => {
+  const addToProg = item => {
     props.dispatch({
-      type: 'ADD_INPROG',
-      item: item,
+      type: "ADD_INPROG",
+      item: item
     });
     props.dispatch({
-      type: 'DEL_TODO',
+      type: "DEL_TODO",
       item: item,
-      id: item.id,
-    })
-  }
-  const addToDone = (item) => {
+      id: item.id
+    });
+  };
+  const addToDone = item => {
     props.dispatch({
-      type: 'ADD_DONE',
-      item: item,
+      type: "ADD_DONE",
+      item: item
     });
     props.dispatch({
-      type: 'DEL_INPROG',
+      type: "DEL_INPROG",
       item: item,
-      id: item.id,
+      id: item.id
+    });
+  };
+  const delFromDone = item => {
+    props.dispatch({
+      type: "DEL_DONE",
+      item: item,
+      id: item.id
+    });
+  };
+
+  const showEditBlock = () => {
+    props.dispatch({
+      type: 'SHOW',
     })
   }
-
 
   return (
     <BoardBlock>
+      <ItemBlock theme={theme.blue}>
+        <ItemHeader theme={theme.blue}>
+          <ItemTitle>TO DO</ItemTitle>
+        </ItemHeader>
+        <TasksBlock>
+          {props.todos.items.map(item => (
+            <Task key={item.id} theme={theme.blue}>
+              <TaskContent>{item.task}</TaskContent>
+              <EditButton theme={theme.blue} onClick={() => showEditBlock()} />
+              <AcceptButton
+                theme={theme.blue}
+                onClick={() => addToProg(item)}
+              />
+            </Task>
+          ))}
+        </TasksBlock>
+      </ItemBlock>
 
-          <ItemBlock theme={theme.blue}>
-            <ItemHeader theme={theme.blue}>
-              <ItemTitle>
-                TO DO
-              </ItemTitle>
-            </ItemHeader>
-            <TasksBlock>
-              {props.todos.items.map( item => (
-                <Task key={item.id} theme={theme.blue}>
-                  <TaskContent>{item.task}</TaskContent>
-                  <AcceptButton theme={theme.blue} onClick={() => addToProg(item)}></AcceptButton>
-                </Task>
-              ))}
-            </TasksBlock>
-          </ItemBlock>
+      <ItemBlock theme={theme.yellow}>
+        <ItemHeader theme={theme.yellow}>
+          <ItemTitle>IN PROGRESS</ItemTitle>
+        </ItemHeader>
+        <TasksBlock>
+          {props.inprog.items.map(item => (
+            <Task key={item.id} theme={theme.yellow}>
+              <InprogTaskContent>{item.task}</InprogTaskContent>
+              <AcceptButton
+                theme={theme.yellow}
+                onClick={() => addToDone(item)}
+              />
+            </Task>
+          ))}
+        </TasksBlock>
+      </ItemBlock>
 
-          <ItemBlock theme={theme.yellow}>
-            <ItemHeader theme={theme.yellow}>
-              <ItemTitle>
-                IN PROGRESS
-              </ItemTitle>
-            </ItemHeader>
-            <TasksBlock>
-            {props.inprog.items.map( item => (
-                <Task key={item.id} theme={theme.yellow}>
-                  <TaskContent>{item.task}</TaskContent>
-                  <AcceptButton theme={theme.yellow} onClick={() => addToDone(item)}></AcceptButton>
-                </Task>
-              ))}
-            </TasksBlock>
-          </ItemBlock>
+      <ItemBlock theme={theme.green}>
+        <ItemHeader theme={theme.green}>
+          <ItemTitle>DONE</ItemTitle>
+        </ItemHeader>
+        <TasksBlock>
+          {props.done.items.map(item => (
+            <DoneTask
+              key={item.id}
+              theme={theme.green}
+              onClick={() => delFromDone(item)}
+            >
+              <DoneTaskContent>{item.task}</DoneTaskContent>
+            </DoneTask>
+          ))}
+        </TasksBlock>
+      </ItemBlock>
 
-          <ItemBlock theme={theme.green}>
-            <ItemHeader theme={theme.green}>
-              <ItemTitle>
-                DONE
-              </ItemTitle>
-            </ItemHeader>
-            <TasksBlock>
-              {props.done.items.map( item => (
-                <Task key={item.id} theme={theme.green}>
-                  <DoneTaskContent>{item.task}</DoneTaskContent>
-                </Task>
-              ))}
-            </TasksBlock>
-          </ItemBlock>
-
+      { props.editBlock.show === true ? <EditForm /> : null }
 
     </BoardBlock>
-  )
-}
+  );
+};
 
 function mapStateToProps(state) {
   return {
     todos: state.todos,
     inprog: state.inprog,
     done: state.done,
-  }
+    editBlock: state.editBlock,
+  };
 }
 
 export default connect(mapStateToProps)(Board);

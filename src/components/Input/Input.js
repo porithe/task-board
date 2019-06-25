@@ -119,21 +119,21 @@ const Button = styled.button`
 
 const Input = (props) => {
 
+  const [idTodos, setId] = React.useState(0);
   const [taskValue, setTask] = React.useState('');
 
-  const [taskId, setTaskId] = React.useState(0);
 
   const sendTask = (e) => {
-    setTaskId(taskId + 1);
+    setId( idTodos + 1);
 
     const itemObject = {
-      id: taskId,
+      id: idTodos,
       task: taskValue,
     }
 
     props.dispatch({
       type: 'ADD_TODO',
-      item: itemObject,
+      item: itemObject
     });
     
     setTask(e.target.value = '');
