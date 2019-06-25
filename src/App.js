@@ -8,8 +8,21 @@ import Board from './components/Board/Board';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import reducer from './reducers/index';
+import { loadState, saveState } from './storage/localStorage';
+import { throttle } from 'lodash';
 
-const store = createStore(reducer);
+const persistedState = loadState();
+const store = createStore(
+  reducer,
+  persistedState
+);
+store.subscribe(throttle(() => {
+  saveState({
+    todos: store.getState().todos,
+    inprog: store.getState().inprog,
+    done: store.getState().done,
+  });
+}, 1000));
 
 const AppBlock = styled.div`
   width: 100%;
