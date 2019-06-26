@@ -3,6 +3,64 @@ import styled from "styled-components";
 import { colors } from "../../template/colors.js";
 
 import { connect } from "react-redux";
+import { keyframes } from 'styled-components';
+
+const AnimationOne = keyframes`
+  0% {
+    width: 0;
+    height: 110px;
+    opacity: 0;
+  }
+  100% {
+    width: 320px;
+    height: 110px;
+    opacity: 1;
+  }
+`;
+const AnimationTwo = keyframes`
+  0% {
+    width: 0;
+    height: 170px;
+    opacity: 0;
+  }
+  100% {
+    width: 430px;
+    height: 170px;
+    opacity: 1;
+  }
+`;
+const AnimationThree = keyframes`
+  0% {
+    width: 0;
+    height: 180px;
+    opacity: 0;
+  }
+  100% {
+    width: 440px;
+    height: 180px;
+    opacity: 1;
+  }
+`;
+const AnimationFour = keyframes`
+  0% {
+    width: 0;
+    height: 200px;
+    opacity: 0;
+  }
+  100% {
+    width: 460px;
+    height: 200px;
+    opacity: 1;
+  }
+`;
+const FormAnimation = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`
 
 const EditBlock = styled.div`
   width: 320px;
@@ -17,17 +75,21 @@ const EditBlock = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 20px 20px;
+  animation: ${AnimationOne} 1s 0.2s both;
   @media (min-width: 481px) and (max-width: 767px) {
     width: 430px;
     height: 170px;
+    animation: ${AnimationTwo} 1s 0.2s both;
   }
   @media (min-width: 768px) and (max-width: 1024px) {
     width: 440px;
     height: 180px;
+    animation: ${AnimationThree} 1s 0.2s both;
   }
   @media (min-width: 1025px) {
     width: 460px;
     height: 200px;
+    animation: ${AnimationFour} 1s 0.2s both;
   }
 `;
 const ExitButton = styled.button`
@@ -120,6 +182,7 @@ const EditInput = styled.input`
   margin-top: 15px;
   text-align: center;
   font-size: 1.3rem;
+  animation: ${FormAnimation} 0.5s 1.2s both;
   @media (min-width: 481px) and (max-width: 767px) {
     width: 220px;
     height: 50px;
@@ -147,6 +210,7 @@ const EditButton = styled.button`
   margin-top: 15px;
   font-size: 1.3rem;
   cursor: pointer;
+  animation: ${FormAnimation} 0.5s 1.2s both;
   @media (min-width: 481px) and (max-width: 767px) {
     width: 95px;
     height: 50px;

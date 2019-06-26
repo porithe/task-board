@@ -7,14 +7,17 @@ import { connect } from "react-redux";
 import EditForm from '../EditForm/EditForm';
 
 const BoardBlock = styled.div`
+  width: 100%;
   padding: 30px 0 30px 0;
   display: flex;
+  align-items: center;
   justify-content: center;
   flex-direction: column;
   @media (min-width: 768px) {
     flex-direction: row;
     justify-content: space-around;
     padding: 50px 0 50px 0;
+    align-items: flex-start;
   }
 `;
 const ItemBlock = styled.div`
