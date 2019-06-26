@@ -1,9 +1,9 @@
 import React from 'react'
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { colors } from "../../template/colors.js";
 
 import { connect } from "react-redux";
-import { keyframes } from 'styled-components';
+
 
 const AnimationOne = keyframes`
   0% {

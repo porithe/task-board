@@ -117,6 +117,11 @@ const Button = styled.button`
   }
 `;
 
+const theme = {
+  purple: colors.purple,
+  red: colors.red,
+}
+
 const Input = (props) => {
 
   const serachIdInProps = () => {
@@ -142,10 +147,12 @@ const Input = (props) => {
       task: taskValue,
     }
 
-    props.dispatch({
-      type: 'ADD_TODO',
-      item: itemObject
-    });
+    if (taskValue !== '') {
+      props.dispatch({
+        type: 'ADD_TODO',
+        item: itemObject
+      });
+    }
     
     setTask(e.target.value = '');
   }
@@ -153,7 +160,7 @@ const Input = (props) => {
 
   return (
     <InputBlock>
-      <Inp value={taskValue} onChange={e => setTask(e.target.value)} placeholder="Start a new project..." />
+      <Inp theme={theme} value={taskValue} onChange={e => setTask(e.target.value)} placeholder="Start a new project..." />
       <Button onClick={sendTask}>ADD TASK</Button>
     </InputBlock>
   )

@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 
 import EditForm from '../EditForm/EditForm';
 
+
 const BoardBlock = styled.div`
   width: 100%;
   padding: 30px 0 30px 0;
