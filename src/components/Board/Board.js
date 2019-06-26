@@ -10,7 +10,6 @@ const BoardBlock = styled.div`
   padding: 30px 0 30px 0;
   display: flex;
   justify-content: center;
-  align-items: center;
   flex-direction: column;
   @media (min-width: 768px) {
     flex-direction: row;
