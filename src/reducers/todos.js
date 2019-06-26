@@ -9,7 +9,14 @@ export default function todos(state = todoState, action) {
         items: [...state.items, action.item],
       };
     case 'EDIT_TODO':
-      return state;
+      return {
+        items: [...state.items.map( item => {
+          if (item.id === action.id) {
+            item.task = action.newTask;
+          }
+          return item;
+        })],
+      };
     case 'DEL_TODO':
       return {
         items: [...state.items.filter(item => item.id !== action.id)],

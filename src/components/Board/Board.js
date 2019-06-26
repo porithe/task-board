@@ -258,9 +258,10 @@ const Board = props => {
     });
   };
 
-  const showEditBlock = () => {
+  const showEditBlock = (item) => {
     props.dispatch({
       type: 'SHOW',
+      item: item,
     })
   }
 
@@ -274,7 +275,7 @@ const Board = props => {
           {props.todos.items.map(item => (
             <Task key={item.id} theme={theme.blue}>
               <TaskContent>{item.task}</TaskContent>
-              <EditButton theme={theme.blue} onClick={() => showEditBlock()} />
+              <EditButton theme={theme.blue} onClick={() => showEditBlock(item)} />
               <AcceptButton
                 theme={theme.blue}
                 onClick={() => addToProg(item)}

@@ -124,7 +124,7 @@ const theme = {
 
 const Input = (props) => {
 
-  const serachIdInProps = () => {
+  const searchIdInProps = () => {
     let itemsLength = props.todos.items.length;
 
     if(itemsLength > 0) {
@@ -135,7 +135,7 @@ const Input = (props) => {
     }
   }
 
-  const [idTodos, setId] = React.useState(serachIdInProps());
+  const [idTodos, setId] = React.useState(searchIdInProps());
   const [taskValue, setTask] = React.useState('');
 
 
@@ -152,8 +152,8 @@ const Input = (props) => {
         type: 'ADD_TODO',
         item: itemObject
       });
+      console.log(props.todos);
     }
-    
     setTask(e.target.value = '');
   }
   

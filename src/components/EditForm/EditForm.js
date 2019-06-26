@@ -232,23 +232,38 @@ const EditButton = styled.button`
 
 const EditForm = (props) => {
 
+  const [valueToEdit, setValue] = React.useState(props.editBlock.itemToEdit[0].task);
+
   const hideEditBlock = () => {
     props.dispatch({
       type: 'HIDE',
     })
   }
 
+  const editTask = () => {
+
+    props.dispatch({
+      type: 'EDIT_TODO',
+      id: props.editBlock.itemToEdit[0].id,
+      newTask: valueToEdit,
+    });
+
+    hideEditBlock();
+  }
+
   return (
     <EditBlock>
       <ExitButton onClick={() => hideEditBlock()}></ExitButton>
-      <EditInput />
-      <EditButton>EDIT</EditButton>
+      <EditInput value={valueToEdit} onChange={e => setValue(e.target.value)} />
+      <EditButton onClick={() => editTask()}>EDIT</EditButton>
     </EditBlock>
   )
 }
 
 function mapStateToProps(state) {
-  return state;
+  return {
+    editBlock: state.editBlock,
+  }
 }
 
 export default connect(mapStateToProps)(EditForm);

@@ -21,6 +21,7 @@ store.subscribe(throttle(() => {
     todos: store.getState().todos,
     inprog: store.getState().inprog,
     done: store.getState().done,
+    editBlock: store.getState().editBlock,
   });
 }, 1000));
 

@@ -1,5 +1,6 @@
 const editState = {
   show: false,
+  itemToEdit: [],
 }
 
 export default function editBlock(state = editState, action) {
@@ -7,10 +8,12 @@ export default function editBlock(state = editState, action) {
     case 'SHOW': 
       return {
         show: true,
+        itemToEdit: [action.item],
       }
     case 'HIDE':
       return {
         show: false,
+        itemToEdit: [],
       }
     default:
       return state;  
