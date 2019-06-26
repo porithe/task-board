@@ -119,7 +119,18 @@ const Button = styled.button`
 
 const Input = (props) => {
 
-  const [idTodos, setId] = React.useState(0);
+  const serachIdInProps = () => {
+    let itemsLength = props.todos.items.length;
+
+    if(itemsLength > 0) {
+      return props.todos.items[itemsLength-1].id + 1
+    }
+    else {
+      return 0;
+    }
+  }
+
+  const [idTodos, setId] = React.useState(serachIdInProps());
   const [taskValue, setTask] = React.useState('');
 
 
