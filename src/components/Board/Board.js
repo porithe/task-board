@@ -193,10 +193,8 @@ const EditButton = styled.button`
   }
 `;
 const InprogTaskContent = styled(TaskContent)`
-  padding-right: 0;
   padding-left: 0;
   @media (min-width: 1491px) {
-    padding-right: 0;
     padding-left: 0;
   }
 `;
@@ -320,7 +318,6 @@ const Board = props => {
       </ItemBlock>
 
       { props.editBlock.show === true ? <EditForm /> : null }
-
     </BoardBlock>
   );
 };
